@@ -38,7 +38,7 @@
                 <?php endif; ?>
                 <?= csrf_field(); ?>
                 <div class="input-group mb-3">
-                    <input type="txtusername" class="form-control" placeholder="Username">
+                    <input type="text" name="txtusername" class="form-control" placeholder="Username">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="txtpassword" class="form-control" placeholder="Password">
+                    <input type="password" name="txtpassword" class="form-control" placeholder="Password">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>

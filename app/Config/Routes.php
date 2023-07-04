@@ -32,7 +32,7 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 
 $routes->match(['get', 'post'], 'login', 'Home::login_page', ["filter" => "AlreadyLoggedIn"]);
-$routes->post("logincheck", "Home::check");
+$routes->post("logincheck", "Home::test");
 $routes->get("logout", "Home::logout");
 
 /*

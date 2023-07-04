@@ -37,52 +37,52 @@ class Home extends BaseController
     {
         return view('auth/login');
     }
-    function check()
+    public function test()
     {
 
-        // $rules = [
-        //     'txtusername' => [
-        //         'rules' => 'required|is_not_unique[users.username]',
-        //         'errors' => [
-        //             'required' => 'Username is required',
-        //             'is_not_unique' => 'This username is not registered in our company.'
-        //         ]
-        //     ],
-        //     'txtpassword' => [
-        //         'rules' => 'required',
-        //         'errors' => [
-        //             'required' => 'Password is required'
-        //         ]
-        //     ]
-        // ];
+        $rules = [
+            'txtusername' => [
+                'rules' => 'required|is_not_unique[users.username]',
+                'errors' => [
+                    'required' => 'Username is required',
+                    'is_not_unique' => 'This username is not registered in our company.'
+                ]
+            ],
+            'txtpassword' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Password is required'
+                ]
+            ]
+        ];
 
-        // if (!$this->validate($rules)) {
-        //     $data['validation'] = $this->validator;
-        //     return view('auth/login', $data);
-        // } else {
+        if (!$this->validate($rules)) {
+            $data['validation'] = $this->validator;
+            return view('auth/login', $data);
+        } else {
             $un = $this->request->getVar('txtusername');
             $pw = $this->request->getVar('txtpassword');
-            echo $un;
-            // $user_info = $this->usermodel->where('lower(username)=lower(\'' . $un . '\')')->first();
-            // $check_password = Hash::check($pw, $user_info['password']);
-            // if ($check_password) {
+            // echo $un;
+            $user_info = $this->usermodel->where('lower(username)=lower(\'' . $un . '\')')->first();
+            $check_password = Hash::check($pw, $user_info['password']);
+            if ($check_password) {
 
 
-            //             $data = array(
-            //                 'logged_in'  =>  TRUE,
-            //                 'username' => $user_info['username'],
-            //                 'userid' => $user_info['id']
-            //             );
+                        $data = array(
+                            'logged_in'  =>  TRUE,
+                            'username' => $user_info['username'],
+                            'userid' => $user_info['id']
+                        );
                         
-            //                 $this->session->set('userdata', $data);
+                            $this->session->set('userdata', $data);
                         
-            //             return redirect()->to(base_url());
+                        return redirect()->to(base_url());
                     
                 
-            // } else {
-            //     $this->session->setTempdata('login_error', 'Please provide correct username or password and try again.', 3);
-            //     return redirect()->route('login')->withInput();
-            // }
-        // }
+            } else {
+                $this->session->setTempdata('login_error', 'Please provide correct username or password and try again.', 3);
+                return redirect()->route('login')->withInput();
+            }
+        }
     }
 }

@@ -57,7 +57,24 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" aria-expanded="true" href="javascript:void(0)">
+                        <span>
+                            <div class="d-felx badge-pill">
+                                <span class="fa fa-user mr-2"></span>
+                                <span><b><?php echo $_SESSION['userdata']['username']; ?></b></span>
+                                <span class="fa fa-angle-down ml-2"></span>
+                            </div>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="account_settings" style="left: -2.5em;">
+                        <a class="dropdown-item" href="<?= base_url(); ?>/profile" id="manage_account"><i
+                                class="fa fa-cog"></i> Account</a>
+                        <a class="dropdown-item" href="<?= base_url(); ?>/Home/logout" id="acc-logout"><i
+                                class="fa fa-power-off"></i>
+                            Logout</a>
+                    </div>
+                </li>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -102,34 +119,12 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-item menu-open">
+                        <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+                                <p> Dashboard</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="./index.html" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v2</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./index3.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v3</p>
-                                    </a>
-                                </li>
-                            </ul>
+
                         </li>
 
                     </ul>
