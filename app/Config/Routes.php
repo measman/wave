@@ -31,6 +31,10 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+$routes->match(['get', 'post'], 'login', 'Home::login_page', ["filter" => "AlreadyLoggedIn"]);
+$routes->post("logincheck", "Home::check");
+$routes->get("logout", "Home::logout");
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
