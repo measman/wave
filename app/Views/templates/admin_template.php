@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
@@ -193,6 +195,7 @@
     <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
     <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 
+    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <!-- Summernote -->
@@ -203,6 +206,12 @@
     <script src="dist/js/adminlte.js"></script>
     <script>
     $(function() {
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
         /** add active class and stay opened when selected */
         var url = window.location;
 
@@ -221,7 +230,7 @@
             $('.modal-title').text('Add Currency');
             $('#txtname_error').text('');
             $('#txtcountry_error').text('');
-            $('#txtcodey_error').text('');
+            $('#txtcode_error').text('');
             $('#action').val('Add');
             $('#submit_button').val('Add');
             $('#currencyModal').modal('show');
@@ -242,6 +251,81 @@
             "ajax": {
                 url: "<?= base_url('currency_fetch_all') ?>",
                 type: 'POST'
+            }
+        });
+        $('#currency_form').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: "<?php echo base_url('currency_action'); ?>",
+                method: "POST",
+                data: $(this).serialize(),
+                dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit_button').val('Wait...');
+                    $('#submit_button').attr('disabled', 'disabled');
+                },
+                success: function(data) {
+                    $('#submit_button').val('Add');
+                    $('#submit_button').attr('disabled', false);
+                    if (data.error == 'yes') {
+                        $('#txtname_error').text(data.txtname_error);
+                        $('#txtcountry_error').text(data.txtcountry_error);
+                        $('#txtcode_error').text(data.txtcode_error);
+                    } else {
+                        $('#currencyModal').modal('hide');
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.message
+                        });
+                        currencyTable.ajax.reload();
+                    }
+                }
+            });
+        });
+        $(document).on('click', '.currency-edit', function() {
+            var cur_id = $(this).data('id');
+            $.ajax({
+                url: "<?php echo base_url('currency_fetch_single_data'); ?>",
+                method: "POST",
+                data: {
+                    id: cur_id
+                },
+                dataType: "JSON",
+                success: function(data) {
+
+                    $('[name="txtname"]').val(data.name);
+                    $('[name="txtcountry"]').val(data.country);
+                    $('[name="txtcode"]').val(data.code);
+                    $('#txtname_error').text('');
+                    $('#txtcountry_error').text('');
+                    $('#txtcode_error').text('');
+                    $('#action').val('Edit');
+                    $('.modal-title').text('Edit Currency');
+                    $('#submit_button').val('SAVE');
+                    $('#currencyModal').modal('show');
+                    $('#hidden_id').val(cur_id);
+                }
+            });
+        });
+        $(document).on('click', '.currency-delete', function() {
+            var apply_id = $(this).data('id');
+            if (confirm("Are you sure you want to delete it?")) {
+                $.ajax({
+                    url: "<?php echo base_url('currency_delete'); ?>",
+                    method: "POST",
+                    data: {
+                        id: apply_id
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.message
+                        });
+                        currencyTable.ajax.reload();
+                    }
+                });
             }
         });
     });

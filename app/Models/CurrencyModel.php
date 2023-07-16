@@ -22,8 +22,8 @@ class CurrencyModel extends Model
     {
         $action_button = function ($row) {            
                 return '<button type="button" title="Edit" data-id="' . $row['id'] . '"
-                class="btn btn-warning event-edit"><i class="icon fas fa-edit"></i></button> <button data-toggle="tooltip" data-placement="top" title="Delete"
-                data-id="' . $row['id'] . '" class="btn btn-danger event-delete"><i class="icon fas fa-trash"></i></button>';
+                class="btn btn-warning currency-edit"><i class="icon fas fa-edit"></i></button> <button data-toggle="tooltip" data-placement="top" title="Delete"
+                data-id="' . $row['id'] . '" class="btn btn-danger currency-delete"><i class="icon fas fa-trash"></i></button>';
             
         };
         return $action_button;
