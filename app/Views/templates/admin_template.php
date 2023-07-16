@@ -27,6 +27,10 @@
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -101,7 +105,7 @@
                 </div>
 
                 <!-- SidebarSearch Form -->
-                <div class="form-inline">
+                <!-- <div class="form-inline">
                     <div class="input-group" data-widget="sidebar-search">
                         <input class="form-control form-control-sidebar" type="search" placeholder="Search"
                             aria-label="Search">
@@ -111,7 +115,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
@@ -120,11 +124,14 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
+                            <a href="<?= base_url() ?>" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p> Dashboard</p>
                             </a>
-
+                            <a href="<?= base_url("currency") ?>" class="nav-link">
+                                <i class="nav-icon fas fa-cash"></i>
+                                <p>Currency</p>
+                            </a>
                         </li>
 
                     </ul>
@@ -177,6 +184,15 @@
     <!-- daterangepicker -->
     <script src="plugins/moment/moment.min.js"></script>
     <script src="plugins/daterangepicker/daterangepicker.js"></script>
+
+    <!-- DataTables  & Plugins -->
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <!-- Summernote -->
@@ -185,7 +201,51 @@
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
+    <script>
+    $(function() {
+        /** add active class and stay opened when selected */
+        var url = window.location;
 
+        // for sidebar menu entirely but not cover treeview
+        $('ul.nav-sidebar a').filter(function() {
+            return this.href == url;
+        }).addClass('active');
+
+        // for treeview
+        $('ul.nav-treeview a').filter(function() {
+            return this.href == url;
+        }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass(
+            'active');
+        $('#add_currency').click(function() {
+            $('#currency_form')[0].reset();
+            $('.modal-title').text('Add Currency');
+            $('#txtname_error').text('');
+            $('#txtcountry_error').text('');
+            $('#txtcodey_error').text('');
+            $('#action').val('Add');
+            $('#submit_button').val('Add');
+            $('#currencyModal').modal('show');
+        });
+        var currencyTable = $("#currencyList").DataTable({
+            // "order": [],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "responsive": true,
+            "searching": true,
+            "processing": true,
+            "serverSide": true,
+            oLanguage: {
+                sProcessing: "Loading..<div class='loader'></div>"
+            },
+            "ajax": {
+                url: "<?= base_url('currency_fetch_all') ?>",
+                type: 'POST'
+            }
+        });
+    });
+    </script>
 </body>
 
 </html>

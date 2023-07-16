@@ -35,6 +35,11 @@ $routes->match(['get', 'post'], 'login', 'Home::login_page', ["filter" => "Alrea
 $routes->post("logincheck", "Home::test");
 $routes->get("logout", "Home::logout");
 
+$routes->group('', ['filter' => 'AuthCheck'], function ($routes) {
+    $routes->get('currency', 'Currency::manage');
+    $routes->post('currency_fetch_all', 'Currency::fetch_all');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
