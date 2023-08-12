@@ -134,6 +134,10 @@
                                 <i class="nav-icon fas fa-cash"></i>
                                 <p>Currency</p>
                             </a>
+                            <a href="<?= base_url("buysell") ?>" class="nav-link">
+                                <i class="nav-icon fas fa-cash"></i>
+                                <p>Buy/Sell</p>
+                            </a>
                         </li>
 
                     </ul>
@@ -225,6 +229,8 @@
             return this.href == url;
         }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass(
             'active');
+
+
         $('#add_currency').click(function() {
             $('#currency_form')[0].reset();
             $('.modal-title').text('Add Currency');

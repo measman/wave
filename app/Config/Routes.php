@@ -41,6 +41,7 @@ $routes->group('', ['filter' => 'AuthCheck'], function ($routes) {
     $routes->post('currency_action', 'Currency::action');
     $routes->post('currency_fetch_single_data', 'Currency::fetch_single_data');
     $routes->post('currency_delete', 'Currency::delete');
+    $routes->get('buysell', 'Transaction::manage');
 });
 
 /*
